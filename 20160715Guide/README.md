@@ -1,7 +1,7 @@
 本文介绍拉取SGDevX/articles项目，并完成编辑、提交和推送的基本操作。
 
 # 拉取SGDevX/articles到本地
-## fork中央仓库到自己个人账户
+## fork中央仓库到自己GitHub账户
 注册一个GitHub账号，并在网页端登录。之后到[https://github.com/SGDevX/articles](https://github.com/SGDevX/articles) 点击右上角Fork按钮：
 
 ![Fork 中心仓库](01fork.png)
@@ -33,4 +33,4 @@
 
 ![Pull requests](05ReceivePull.png)
 
-点击该条请求
+点击该条请求，可以点击“Merge pull request”将此次推送请求合入主线，或者如果有疑问，可以暂不合并，只是提交Comment，请求方将收到该Comment，双方讨论一致后，committer再将request合并到中央仓库
