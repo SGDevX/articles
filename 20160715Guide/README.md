@@ -33,4 +33,9 @@
 
 ![Pull requests](05ReceivePull.png)
 
-点击该条请求，可以点击“Merge pull request”将此次推送请求合入主线，或者如果有疑问，可以暂不合并，只是提交Comment，请求方将收到该Comment，双方讨论一致后，committer再将request合并到中央仓库
+点击该条请求，可以点击“Merge pull request”将此次推送请求合入主线，或者如果有疑问，可以暂不合并，只是提交Comment，请求方将收到该Comment，双方讨论一致后，committer再将request合并到中央仓库。
+
+# 已经fork和clone的用户，当中央仓库更新后应怎么操作？
+已经从中央仓库fork并clone到本地的用户，当中央仓库更新后，更新本地副本是不会得到中央仓库的更新内容的，因为此时他是从自己的个人仓库拉取内容。
+正确的做法应该是先将中心仓库添加到项目的remote地址，取名为upstream，然后从upstream拉取内容到本地clone，然后再把内容推送到个人仓库。这样就完成了个人仓库与中心仓库的同步。
+之后的事情就和前面介绍的一致了。
