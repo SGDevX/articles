@@ -27,9 +27,9 @@ sp<IServiceManager> defaultServiceManager()
 }
 ```
 关键步骤可以分解为几步：
-1、ProcessState::self()
-2、ProcessState::getContextObject(NULL)
-3、interface_cast&lt;IserviceManager&gt;(ProcessState::self()->getContextObject(NULL))
+1. ProcessState::self()
+2. ProcessState::getContextObject(NULL)
+3. interface_cast&lt;IserviceManager&gt;(ProcessState::self()->getContextObject(NULL))
 
 # ProcessState::self()
 frameworks/native/libs/binder/ProcessState.cpp:70 
