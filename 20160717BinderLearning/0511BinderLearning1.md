@@ -25,7 +25,7 @@ bindService(intent, connection, Service.BIND_AUTO_CREATE);  // 创建Servic
 当Service创建成功，Service会回调ServiceConnection的函数：
 `public void onServiceConnected(ComponentName name, IBinder service); `
 
-![](05111709.png)
+![](0511BinderLearning1/05111709.png)
 
 更神奇的是，Service和Client可以是两个不同的进程，而且即使跨进程，Client仍然可以把来自Service的binder当做本地对象来使用。Binder对函数调用做了封装，把函数和参数组装成数据包发给Service，再由Service调用和执行实际的服务接口，并把执行结果也组装成数据包返回给客户端。
 
