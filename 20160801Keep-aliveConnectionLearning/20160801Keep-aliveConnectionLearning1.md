@@ -14,8 +14,8 @@ comments: true
 
 1.旧版本html支持的长连接方案  
 2.Html5（SSE）实现方案  
-3.Html5（Socket）实现方案  
-4.客户端旧版本长连接（Nignx）实现方案  
+3.Html5（WebSocket）实现方案  
+4.客户端旧版本长连接（nginx-push-stream-module）实现方案  
 5.客户端心跳推送实现方案  
 6.常用即时通讯软件实现方案  
 
