@@ -22,6 +22,7 @@ SSE说的其实就是服务器端推送特性，基本的实现就是用专门�
 
 # SSE基本实现 #
 
+
 ``` html
 		<!doctype html>
 		<html>
@@ -39,27 +40,29 @@ SSE说的其实就是服务器端推送特性，基本的实现就是用专门�
 		        },false);
 		    </script>
 		</html>
-```   
+```
 
 逻辑非常简单，声明一个EventSource指向一个服务器端接口即可，当服务器端返回内容的时候，onmessage接口会响应，处理对应的方法即可，例子中是直接贴出返回内容。
 
+
 ``` php
-<?php
-header('Content-Type: text/event-stream');
-header('Cache-Control: no-cache');
-echo "data: ". date("Y-m-d H:i:s") ."\n\n";
-?>
+	<?php
+		header('Content-Type: text/event-stream');
+		header('Cache-Control: no-cache');
+		echo "data: ". date("Y-m-d H:i:s") ."\n\n";
+	?>
 ```
 
 这里值得提出的是，返回必须是“data:”开头，而且必须是Content-Type: text/event-stream，最终结尾必须是两个\n，这样才会被识别为有效返回，可以理解为SSE的规则吧，在不同的浏览器上，可能会看到不同的结果，chrome是3s一返回，FF是5s一返回，很多文章也写过，这个时间是浏览器默认设置的，其实不然，SSE协议中还定义了repeat返回的时间间隔，这个也是可以设置的。
 
+
 ``` php
-<?php
-header('Content-Type: text/event-stream');
-header('Cache-Control: no-cache');
-echo "retry:3000\n";//毫秒
-echo "data: ". date("Y-m-d H:i:s") ."\n\n";
-?>
+	<?php
+	header('Content-Type: text/event-stream');
+	header('Cache-Control: no-cache');
+	echo "retry:3000\n";//毫秒
+	echo "data: ". date("Y-m-d H:i:s") ."\n\n";
+	?>
 ```
 
 # SSE协议内容 #
@@ -77,7 +80,7 @@ echo "data: ". date("Y-m-d H:i:s") ."\n\n";
 例如：event:hello\n,
 js中只要监听hello事件即可获取相关返回。
 
-4.httpcode 204 指的是，当你希望web端断开链接的时候，只需要返回204，web端就不会再向服务器端发送请求，表示两端的连接彻底断开。
+4.httpcode 204 指的是，当你希望web端断开连接的时候，只需要返回204，web端就不会再向服务器端发送请求，表示两端的连接彻底断开。
 
 5.id，这个我们详细说说
 
@@ -86,27 +89,27 @@ js中只要监听hello事件即可获取相关返回。
 下面是例子：
 
 ``` php
-<?php
-    header('Content-Type: text/event-stream');
-	header('Cache-Control: no-cache');
-	$time = date('H:i:s');
-	$i = isset($_SERVER["HTTP_LAST_EVENT_ID"])?$_SERVER["HTTP_LAST_EVENT_ID"]:0;
-	while(true){
-		$i++;
-		$time2 = date('H:i:s');
-		$rand = rand(0,1000000);
-		if($rand < 2){
-			echo "id:".$i."\n";
-			echo "data:hello:".$rand."-num:".$i."-date1:".$time."-date2:".$time2."\n\n";
-			flush();
-			break;
+	<?php
+	    header('Content-Type: text/event-stream');
+		header('Cache-Control: no-cache');
+		$time = date('H:i:s');
+		$i = isset($_SERVER["HTTP_LAST_EVENT_ID"])?$_SERVER["HTTP_LAST_EVENT_ID"]:0;
+		while(true){
+			$i++;
+			$time2 = date('H:i:s');
+			$rand = rand(0,1000000);
+			if($rand < 2){
+				echo "id:".$i."\n";
+				echo "data:hello:".$rand."-num:".$i."-date1:".$time."-date2:".$time2."\n\n";
+				flush();
+				break;
+			}
+			if($i > 10000000){
+				@header('HTTP/1.1 204 No Content');
+				break;
+			}
 		}
-		if($i > 10000000){
-			@header('HTTP/1.1 204 No Content');
-			break;
-		}
-	}
-?>
+	?>
 ```
 
 html代码还是保持不变即可，返回的时候我们带上id，下次请求web端就会带上HTTP_LAST_EVENT_ID这个http参数过来，通过php的$_SERVER["HTTP_LAST_EVENT_ID"]就能获取到相应的值，代码里就是从这个id开始往后计算，类似自增id遍历。
